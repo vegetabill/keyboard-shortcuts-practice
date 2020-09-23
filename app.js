@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const express = require("express");
 const bodyParser = require("body-parser");
 const { connectToDb } = require("./JS/orm");
+const { configureAuth } = require("./JS/auth");
 
 const app = express();
 app.use(morgan("dev")); //morgan gives us useful logging
@@ -14,6 +15,8 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+configureAuth(app);
 
 const routes = require("./routes/routes.js");
 app.use("/", routes);
